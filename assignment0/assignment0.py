@@ -85,7 +85,7 @@ print ""
 
 def sortcat(n, *strs):
     strs = map(lambda x: str(x), strs)[:n]
-    strs = sorted(strs, key=lambda s: str(s)) 
+    strs = sorted(strs, key=lambda s: -len(s)) 
     # added bars to make output more readable
     return " | ".join(strs)
 
