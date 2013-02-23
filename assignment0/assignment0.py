@@ -93,6 +93,7 @@ print "SORTCAT TESTS:"
 print sortcat(1, 'abc', 'bc')
 print sortcat(9, 'abc', 'ab', 899)
 print sortcat(3, 'cd', 'a', 'cat', 21342134, True)
+print sortcat(3)
 print ""
 
 ################################################################
