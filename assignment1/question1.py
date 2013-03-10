@@ -1,7 +1,6 @@
 import collections
 import re
 
-#!/usr/bin/python
 def common_words(filename):
     """question 1a
 

@@ -52,15 +52,30 @@ class Person:
         self.gender = gender.upper()
 
 class Building(object):
-    def __init__(self):
+    all_buildings = dict()
+
+    def __init__(self, loc):
         # List of tuples (room_no, pepole_lst).  Used a list because 
         # when I iterate, I need to make sure the order stays the same
         self.rooms = []
         # self.current is a touple in the form (room_no, index)
         self.current = (0, 0)
+        self.loc = loc
+        if loc in Building.all_buildings.keys(): raise Exception("TwoBuildingsInOneLocation")
+        else: Building.all_buildings[loc] = self
 
     def __iter__(self):
         return self
+
+    def __setitem__(self, room, person):
+        self.enter(person, room)
+
+    @classmethod
+    def locate(cls, location):
+        if location in Building.all_buildings.keys(): 
+            return Building.all_buildings[location]
+        else:
+            return None
 
     def next(self):
         (i, j) = self.current
@@ -76,8 +91,7 @@ class Building(object):
             raise StopIteration
 
     def enter(self, person, room_no):
-        r_nos = map(lambda x: x[0], self.rooms)
-        if room_no not in r_nos: 
+        if room_no not in map(lambda x: x[0], self.rooms): 
             self.rooms.append((room_no, [person]))
         to_remove = None
         for k in range(len(self.rooms)):
@@ -95,9 +109,9 @@ class Building(object):
         return None
 
 class OfficeBuilding(Building):
-    def __init__(self, emp_lst):
+    def __init__(self, emp_lst, loc):
         self.emp_lst = emp_lst
-        super(OfficeBuilding, self).__init__()
+        super(OfficeBuilding, self).__init__(loc)
 
 
     def enter(self, person, room_no):
@@ -106,9 +120,11 @@ class OfficeBuilding(Building):
         else:
             raise Exception("INTRUDER_ALERT")
 
-class Home:
-    def __init__(self):
+class Home(Building):
+    def __init__(self, loc):
+        current = 0
         self.ppl = []
+        super(Home, self).__init__(loc)
 
     def enter(self, person):
         if person not in self.ppl: self.ppl.append(person)
@@ -116,15 +132,15 @@ class Home:
     def at_home(self, person):
         return person in self.ppl
 
+    def next(self):
+        if self.current == len(self.ppl):
+            self.current = 0
+            raise StopIteration
+        current += 1
+        return self.ppl[current - 1] 
 
+    def where_is(self, person):
+        raise Exception("NotSupported")
 
-
-
-
-
-
-
-
-
-
-
+    def __setitem__(self, room, person):
+        raise Exception("NotSupported")

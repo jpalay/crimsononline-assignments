@@ -29,7 +29,7 @@ def parse_links_regex(filename):
     file_contents = file.read()
     file.close()
 
-    match = re.findall(r"<[aA][^href]href=\"([^\"]*)\"[^>]*>[\s]*([^<]*)", file_contents)
+    match = re.findall(r"<[aA] href=\"([^\"]*)\"[^>]*>[\s]*([^<]*)", file_contents)
     result = dict()
     for m in match:
         if m[1] not in result.keys():

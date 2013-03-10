@@ -47,7 +47,7 @@ for d in people_data:
 pprint(map(lambda p: p.__dict__, people))
 
 print "Creating empty building..."
-b = Building()
+b = Building((1,2))
 pprint(b.__dict__)
 
 print "Filling empty building..."
@@ -65,7 +65,7 @@ for person in b:
 	pprint(person.__dict__)
 
 print "Creating empty office building..."
-ob = OfficeBuilding(people[:2])
+ob = OfficeBuilding(people[:2], (2,1))
 pprint(ob.__dict__)
 for person in ob.emp_lst:
 	pprint(person.__dict__)
@@ -81,7 +81,7 @@ for person in ob:
 family = people[:2]
 
 print "Building a house..."
-h = Home()
+h = Home((3,1))
 pprint(h.__dict__)
 
 print "Family coming in..."
@@ -93,6 +93,18 @@ for person in family:
 
 print "Is Josh Palay at home? {}".format("Yes!" if h.at_home(people[0]) else "No :(")
 print "Is Human Female at home? {}".format("Yes!" if h.at_home(people[3]) else "No :(")
+
+print "What's at (3, 1)?  ",
+pprint(Building.locate((3, 1)))
+print "What's at (9, 9)?  ",
+pprint(Building.locate((9, 9)))
+
+print "Let's stick Joe Biden in room zero of the building!!"
+jb = Person("Joe", "Biden", "M")
+b[0] = jb
+pprint(b.__dict__)
+for person in b:
+	pprint(person.__dict__)
 
 print "==testing question 4=="
 print "github url: {}".format(GITHUB_URL)
