@@ -1,3 +1,6 @@
+import re
+from lxml import etree
+
 def parse_links_regex(filename):
     """question 2a
 
@@ -11,10 +14,29 @@ def parse_links_regex(filename):
 
         You can get file 1 <a href="1.file">here</a>.
         You can get file 2 <a href="2.file">here</a>.
+        <a title="hello" href="google.com">lol</a>
 
     What does it make the most sense to do here? 
     """
-    pass
+    # dict has format {text: [link1, link2]}
+    file = None
+    try:
+        file = open(filename, 'r')
+    except IOError:
+        print 'I can\'t find "{}"'.format(filename)
+        return
+
+    file_contents = file.read()
+    file.close()
+
+    match = re.compile("<[aA][^href]href=\"([^\"]*)\"[^>]*>[\s]*([^<]*)").findall(file_contents)
+    result = dict()
+    for m in match:
+        if m[1] not in result.keys():
+            result[m[1]] = [m[0]]
+        elif m[0] not in result[m[1]]:
+            result[m[1]].append(m[0])
+    return result
 
 def parse_links_xpath(filename):
     """question 2b
@@ -24,4 +46,30 @@ def parse_links_xpath(filename):
     
     Which approach is better? (Hint: http://goo.gl/mzl9t)
     """
-    pass
+    # This is way better
+    links = etree.parse(filename, etree.HTMLParser()).xpath("//a")
+    result = dict()
+    for l in links:
+        if l.text not in result.keys():
+            result[l.text] = [l.get("href")]
+        elif l.get("href") not in result[l.text]:
+            result[l.text].append(l.get("href"))
+    return result
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

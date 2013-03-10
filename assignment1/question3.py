@@ -41,8 +41,16 @@ g)  With a minimum of code duplication, modify the Building class so that
 """
 
 class Person:
-    def __init__(self):
-        pass
+    fname, lname, gender = None, None, None
+    def __init__(self, fname, lastname, gender):
+        if not (gender.upper() == "M" or gender.upper() == "F"):
+            raise Exception("Invalid Gender Exception")
+        if (len(fname) == 0 or ord(fname[0]) - ord("a") in range(26) or
+            len(lname) == 0 or ord(fname[0]) - ord("z") in range(26)):
+            raise Exception("Invalid name")
+        self.fname = fname
+        self.lname = lname
+        self.gender = gender.upper()
 
 class Building:
     def enter(self, person, room_no):
