@@ -5,6 +5,7 @@ from question1 import (common_words, common_words_min, common_words_tuple,
 from question2 import parse_links_regex, parse_links_xpath
 from question3 import *
 from question4 import GITHUB_URL
+from question5 import HashableList as HL
 # fill in the rest!
 
 print "==testing question 1=="
@@ -112,5 +113,15 @@ print
 
 
 print "==testing question 5=="
-# ???
+d = {HL([1, 3, 7]): "FIRST LIST :D", HL([4, 4, 9]): "second list :/"}
+print "What's at index [1, 3, 7]? ",
+pprint(d[HL([1, 3, 7])])
+print "What's at index [4, 4, 9]? ",
+pprint(d[HL([4, 4, 9])])
+print "Nothing's at index [2, 3, 8], right? ",
+try:
+	pprint(d[HL([2, 3, 8])])
+except KeyError:
+	print "Nope!"
+
 print
