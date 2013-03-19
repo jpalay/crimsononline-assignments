@@ -1,3 +1,3 @@
 class HashableList(list):
 	def __hash__(self):
-		return reduce(lambda a, x: a + str(x), self, "").__hash__()
+		return tuple(self).__hash__()
