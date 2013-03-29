@@ -120,12 +120,13 @@ class OfficeBuilding(Building):
         else:
             raise Exception("INTRUDER_ALERT")
 
-class Home(Building):
+class Home():
     def __init__(self, loc):
         current = 0
         self.ppl = []
-        super(Home, self).__init__(loc)
-
+        if loc in Building.all_buildings.keys(): raise Exception("TwoBuildingsInOneLocation")
+        else: Building.all_buildings[loc] = self
+        
     def enter(self, person):
         if person not in self.ppl: self.ppl.append(person)
 
@@ -138,9 +139,3 @@ class Home(Building):
             raise StopIteration
         current += 1
         return self.ppl[current - 1] 
-
-    def where_is(self, person):
-        raise Exception("NotSupported")
-
-    def __setitem__(self, room, person):
-        raise Exception("NotSupported")
